@@ -17,7 +17,7 @@ TEST(ReplaceTest, BasicCases) {
     EXPECT_EQ(s4, "");
 }
 
-TEST(ReplaceTest, OnlyAorB) {
+TEST(ReplaceTest, OnlyAorBorC) {
     std::string s = "aaaa";
     Replace(s);
     EXPECT_EQ(s, "bbbb");
@@ -25,4 +25,9 @@ TEST(ReplaceTest, OnlyAorB) {
     s = "bbbb";
     Replace(s);
     EXPECT_EQ(s, "aaaa");
+
+    s = "ccccc";
+    Replace(s);
+    EXPECT_EQ(s, "ccccc");
 }
+
