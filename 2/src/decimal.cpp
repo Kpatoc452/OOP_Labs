@@ -13,7 +13,7 @@ namespace Decimal {
         }
 
         for (auto it = str.rbegin(); it != str.rend(); ++it) {
-            const unsigned char& ch = *it;
+            const unsigned char ch = *it;
             if (ch > '9' || ch < '0') {
                 throw exception::NaNException("Invalid number");
             }
@@ -41,7 +41,7 @@ namespace Decimal {
 
     Decimal::Decimal(const Array::Array& arr): digits_() {
         for (size_t i = 0; i < arr.Size(); ++i) {
-            const unsigned char& ch = arr.GetByIdx(i);
+            const unsigned char ch = arr.GetByIdx(i);
             if (ch > 9) {
                 throw exception::NaNException("Invalid num");
             }
@@ -66,8 +66,8 @@ namespace Decimal {
         size_t idx = 0;
 
         for (; idx < std::min(val1.digits_.Size(), val2.digits_.Size()); ++idx) {
-            const unsigned char& num1 = val1.digits_.GetByIdx(idx);
-            const unsigned char& num2 = val2.digits_.GetByIdx(idx);
+            const unsigned char num1 = val1.digits_.GetByIdx(idx);
+            const unsigned char num2 = val2.digits_.GetByIdx(idx);
 
             uint8_t sum = num1 + num2 + mem;
             mem = sum / 10;
