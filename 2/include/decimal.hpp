@@ -9,14 +9,14 @@ namespace Decimal{
 class Decimal {
 public:
     Decimal();
-    Decimal(const size_t& size, const unsigned char& ch);
+    Decimal(const size_t& size, const unsigned char ch);
     Decimal(const std::string& str);
     Decimal(const std::initializer_list<unsigned char>& list);
     Decimal(const Array::Array& arr);
     Decimal(const Decimal& other);
     Decimal(Decimal&& other);
 
-    ~Decimal() noexcept;
+    ~Decimal() noexcept = default;
 
     void Copy(const Decimal& other);
 

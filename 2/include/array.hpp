@@ -9,7 +9,7 @@ class Array {
 public:
     Array();
 
-    Array(const size_t& size, const unsigned char& value);
+    Array(const size_t& size, const unsigned char value);
 
     Array(const Array& other);
 
@@ -40,10 +40,6 @@ public:
     size_t Size() const noexcept;
 
     size_t Capacity() const noexcept;
-
-    //void Reserve(size_t new_cap);
-
-    //void Clear() noexcept;
 
     void PushBack(unsigned char value);
 

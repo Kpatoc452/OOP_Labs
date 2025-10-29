@@ -5,7 +5,7 @@
 namespace Array {
     Array::Array(): sz_(0), cap_(0), arr_(nullptr) {}
 
-    Array::Array(const size_t& size, const unsigned char& value)
+    Array::Array(const size_t& size, const unsigned char value)
         : sz_(size), cap_(size), arr_(size > 0 ? new unsigned char[size] : nullptr) {
         if (arr_ != nullptr) {
             memset(arr_, value, size);

@@ -4,9 +4,9 @@
 namespace Decimal {
     Decimal::Decimal() : digits_() {};
 
-    Decimal::Decimal(const size_t& size, const unsigned char& ch): digits_(Array::Array(size, ch)) {}
+    Decimal::Decimal(const size_t& size, const unsigned char ch): digits_(Array::Array(size, ch)) {}
 
-    Decimal::Decimal(const std::string& str) : digits_(Array::Array()) {
+    Decimal::Decimal(const std::string& str) : digits_(std::move(Array::Array())) {
         if (str.empty()) {
             digits_.PushBack(0);
             return;
@@ -55,9 +55,6 @@ namespace Decimal {
     Decimal::Decimal(const Decimal& other): digits_(other.digits_) {}
     
     Decimal::Decimal(Decimal&& other) :digits_(other.digits_) {}
-
-    Decimal::~Decimal() noexcept {
-    }
 
     void Decimal::Copy(const Decimal& other) {
         digits_.Copy(other.digits_);
