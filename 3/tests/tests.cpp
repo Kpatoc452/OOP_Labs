@@ -83,7 +83,7 @@ TEST(TrapezoidTest, MoveConstructor) {
     EXPECT_NE(t2.Area(), 0);
 }
 
-// Тесты для Rhombus
+
 TEST(RhombusTest, DefaultConstructor) {
     figure::Rhombus r;
     auto center = r.Center();
@@ -108,7 +108,7 @@ TEST(RhombusTest, CenterCalculation) {
     EXPECT_DOUBLE_EQ(center.y, 1.0);
 }
 
-// Тесты для Pentagon
+
 TEST(PentagonTest, DefaultConstructor) {
     figure::Pentagon p;
     auto center = p.Center();
@@ -232,7 +232,7 @@ TEST(VectorTest, PopBack) {
     EXPECT_EQ(v.Size(), 0);
 }
 
-// Тесты операторов сравнения
+
 TEST(ComparisonTest, TrapezoidEquality) {
     figure::Point p1{0,0}, p2{4,0}, p3{3,3}, p4{1,3};
     figure::Trapezoid t1(p1, p2, p3, p4);
@@ -244,7 +244,7 @@ TEST(ComparisonTest, TrapezoidEquality) {
     EXPECT_TRUE(t1 != t3);
 }
 
-// Тесты преобразования в double
+
 TEST(ConversionTest, ToDouble) {
     figure::Trapezoid t({0,0}, {4,0}, {3,3}, {1,3});
     figure::Rhombus r({0,0}, {2,1}, {0,2}, {-2,1});
