@@ -5,7 +5,7 @@
 
 namespace vector {
 
-Vector::Vector() : size_(0), capacity_(DEFAULT_CAPACITY), data_(new figure::Figure*[DEFAULT_CAPACITY]) {}
+Vector::Vector() : size_(0), capacity_(0), data_(nullptr) {}
 
 Vector::Vector(std::initializer_list<figure::Figure*> init) 
     : size_(init.size()), capacity_(init.size()), data_(new figure::Figure*[init.size()]) {
@@ -16,12 +16,16 @@ Vector::Vector(std::initializer_list<figure::Figure*> init)
 }
 
 figure::Figure& Vector::operator[](size_t pos) {
-    if (pos >= size_) throw std::out_of_range("index out of bounds");
+    if (pos >= size_) {
+        throw std::out_of_range("index out of bounds");
+    }
     return *data_[pos];
 }
 
 const figure::Figure& Vector::operator[](size_t pos) const {
-    if (pos >= size_) throw std::out_of_range("index out of bounds");
+    if (pos >= size_) {
+        throw std::out_of_range("index out of bounds");
+    }
     return *data_[pos];
 }
 

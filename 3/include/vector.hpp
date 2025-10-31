@@ -1,12 +1,11 @@
 #pragma once
+
 #include <cstdlib>
 #include <initializer_list>
 #include <utility>
 #include "figure.hpp"
 
 namespace vector {
-
-constexpr const size_t DEFAULT_CAPACITY = 3;
 
 class Vector {
     friend void swap(Vector& v1, Vector& v2) noexcept;

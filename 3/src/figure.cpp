@@ -1,4 +1,5 @@
 #include "figure.hpp"
+
 #include <cmath>
 
 namespace figure {
@@ -27,6 +28,10 @@ std::istream& operator>>(std::istream& stream, Point& point) {
 std::ostream& operator<<(std::ostream& stream, const Figure& fig) {
     fig.Print(stream);
     return stream;
+}
+
+double Distance(const Point& a, const Point& b) {
+    return std::sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
 }
 
 }

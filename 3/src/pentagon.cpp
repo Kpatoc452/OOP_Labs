@@ -1,4 +1,5 @@
 #include "pentagon.hpp"
+
 #include <cmath>
 #include <algorithm>
 
@@ -13,30 +14,42 @@ Pentagon::Pentagon(const Point& p1, const Point& p2, const Point& p3, const Poin
 Pentagon::~Pentagon() {}
 
 Pentagon& Pentagon::operator=(const Pentagon& other) {
-    if (this == &other) return *this;
-    std::copy(other.points, other.points + 5, points);
+    if (this == &other) {
+        return *this;
+    }
+    
+    std::copy(other.points, other.points + PENTAGON_ANGLES, points);
+    
     return *this;
 }
 
 Pentagon& Pentagon::operator=(Pentagon&& other) {
-    if (this == &other) return *this;
-    std::copy(other.points, other.points + 5, points);
+    if (this == &other) {
+        return *this;
+    }
+
+    for (int i = 0; i < PENTAGON_ANGLES; i++) {
+        points[i] = std::move(other.points[i]);
+    }
+    
     return *this;
 }
 
 Point Pentagon::Center() const {
     double cx = 0, cy = 0;
-    for (int i = 0; i < 5; i++) {
+
+    for (int i = 0; i < PENTAGON_ANGLES; i++) {
         cx += points[i].x;
         cy += points[i].y;
     }
-    return Point(cx / 5, cy / 5);
+    
+    return Point(cx / PENTAGON_ANGLES, cy / PENTAGON_ANGLES);
 }
 
 double Pentagon::Area() const {
     double sum = 0;
-    for (int i = 0; i < 5; i++) {
-        int next = (i + 1) % 5;
+    for (int i = 0; i < PENTAGON_ANGLES; i++) {
+        int next = (i + 1) % PENTAGON_ANGLES;
         sum += points[i].x * points[next].y - points[next].x * points[i].y;
     }
     return fabs(sum) / 2;
@@ -48,31 +61,43 @@ Pentagon::operator double() {
 
 void Pentagon::Print(std::ostream& stream) const {
     stream << "pentagon\n";
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < PENTAGON_ANGLES; i++) {
         stream << points[i];
-        if (i < 4) stream << ", ";
+
+        if (i < PENTAGON_ANGLES - 1) {
+            stream << ", ";
+        }
     }
 }
 
 Point Pentagon::GetVertex(int idx) const {
-    if (idx < 0 || idx >= 5) throw std::out_of_range("invalid vertex index");
+    if (idx < 0 || idx >= PENTAGON_ANGLES) {
+        throw std::out_of_range("invalid vertex index");
+    }
+
     return points[idx];
 }
 
 bool Pentagon::IsValid() const {
-    for (int i = 0; i < 5; i++) {
-        for (int j = i + 1; j < 5; j++) {
+    for (int i = 0; i < 5; ++i) {
+        for (int j = i + 1; j < 5; ++j) {
             if (points[i] == points[j]) return false;
         }
     }
-    return true;
+    
+    double area = Area();
+    return area > EPS;
 }
 
+
 bool operator==(const Pentagon& a, const Pentagon& b) {
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < PENTAGON_ANGLES; i++) {
         if (fabs(a.points[i].x - b.points[i].x) > EPS || 
-            fabs(a.points[i].y - b.points[i].y) > EPS) return false;
+            fabs(a.points[i].y - b.points[i].y) > EPS) { 
+                return false;
+            }
     }
+
     return true;
 }
 
@@ -81,7 +106,10 @@ bool operator!=(const Pentagon& a, const Pentagon& b) {
 }
 
 std::istream& operator>>(std::istream& stream, Pentagon& pent) {
-    for (int i = 0; i < 5; i++) stream >> pent.points[i];
+    for (int i = 0; i < PENTAGON_ANGLES; i++) {
+        stream >> pent.points[i];
+    }
+
     return stream;
 }
 

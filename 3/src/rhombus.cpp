@@ -1,4 +1,5 @@
 #include "rhombus.hpp"
+
 #include <cmath>
 
 namespace figure {
@@ -11,14 +12,26 @@ Rhombus::Rhombus(const Point& p1, const Point& p2, const Point& p3, const Point&
 Rhombus::~Rhombus() {}
 
 Rhombus& Rhombus::operator=(const Rhombus& other) {
-    if (this == &other) return *this;
-    for (size_t i = 0; i < 4; i++) points[i] = other.points[i];
+    if (this == &other) {
+        return *this;
+    }
+
+    for (size_t i = 0; i < RHOMBUS_ANGLES; i++) {
+        points[i] = other.points[i];
+    }
+    
     return *this;
 }
 
 Rhombus& Rhombus::operator=(Rhombus&& other) {
-    if (this == &other) return *this;
-    for (size_t i = 0; i < 4; i++) points[i] = other.points[i];
+    if (this == &other) {
+        return *this;
+    }
+
+    for (size_t i = 0; i < RHOMBUS_ANGLES; i++) {
+        points[i] = std::move(other.points[i]);
+    }
+
     return *this;
 }
 
@@ -28,56 +41,72 @@ Rhombus::operator double() {
 
 Point Rhombus::Center() const {
     double cx = 0, cy = 0;
-    for (size_t i = 0; i < 4; i++) {
+
+    for (size_t i = 0; i < RHOMBUS_ANGLES; i++) {
         cx += points[i].x;
         cy += points[i].y;
     }
-    return Point(cx / 4, cy / 4);
+
+    return Point(cx / RHOMBUS_ANGLES, cy / RHOMBUS_ANGLES);
 }
 
 double Rhombus::Area() const {
     double diag1 = sqrt(pow(points[2].x - points[0].x, 2) + pow(points[2].y - points[0].y, 2));
     double diag2 = sqrt(pow(points[3].x - points[1].x, 2) + pow(points[3].y - points[1].y, 2));
+    
     return diag1 * diag2 * 0.5;
 }
 
 Point Rhombus::GetVertex(int idx) const {
-    if (idx < 0 || idx >= 4) throw std::out_of_range("invalid vertex index");
+    if (idx < 0 || idx >= RHOMBUS_ANGLES) {
+        throw std::out_of_range("invalid vertex index");
+    }
+
     return points[idx];
 }
 
 void Rhombus::Print(std::ostream& stream) const {
     stream << "rhombus\n";
-    for (size_t i = 0; i < 4; i++) {
+
+    for (size_t i = 0; i < RHOMBUS_ANGLES; i++) {
         stream << points[i];
-        if (i < 3) stream << ", ";
+
+        if (i < RHOMBUS_ANGLES - 1) {
+            stream << ", ";
+        }
     }
 }
 
 bool Rhombus::IsValid() const {
-    for (size_t i = 0; i < 4; i++) {
-        for (size_t j = i + 1; j < 4; j++) {
+    for (int i = 0; i < 4; ++i) {
+        for (int j = i + 1; j < 4; ++j) {
             if (points[i] == points[j]) return false;
         }
     }
     
-    double s[4];
-    for (size_t i = 0; i < 4; i++) {
-        size_t next = (i + 1) % 4;
-        s[i] = sqrt(pow(points[next].x - points[i].x, 2) + pow(points[next].y - points[i].y, 2));
+    double sides[4];
+    for (int i = 0; i < 4; ++i) {
+        int next = (i + 1) % 4;
+        sides[i] = Distance(points[i], points[next]);
     }
     
-    for (size_t i = 1; i < 4; i++) {
-        if (fabs(s[i] - s[0]) > EPS) return false;
+    for (int i = 1; i < 4; ++i) {
+        if (fabs(sides[i] - sides[0]) > EPS) return false;
     }
-    return true;
+    
+    double area = Area();
+    return area > EPS;
 }
 
+
 bool operator==(const Rhombus& a, const Rhombus& b) {
-    for (size_t i = 0; i < 4; i++) {
+    for (size_t i = 0; i < RHOMBUS_ANGLES; i++) {
         if (fabs(a.points[i].x - b.points[i].x) > EPS || 
-            fabs(a.points[i].y - b.points[i].y) > EPS) return false;
+            fabs(a.points[i].y - b.points[i].y) > EPS) {
+                return false;
+            }
     }
+
     return true;
 }
 
@@ -86,7 +115,10 @@ bool operator!=(const Rhombus& a, const Rhombus& b) {
 }
 
 std::istream& operator>>(std::istream& stream, Rhombus& rh) {
-    for (size_t i = 0; i < 4; i++) stream >> rh.points[i];
+    for (size_t i = 0; i < RHOMBUS_ANGLES; i++) {
+        stream >> rh.points[i];
+    }
+
     return stream;
 }
 

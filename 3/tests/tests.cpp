@@ -134,7 +134,7 @@ TEST(VectorTest, DefaultConstructor) {
     vector::Vector v;
     EXPECT_TRUE(v.IsEmpty());
     EXPECT_EQ(v.Size(), 0);
-    EXPECT_GE(v.Capacity(), vector::DEFAULT_CAPACITY);
+    EXPECT_GE(v.Capacity(), 0);
 }
 
 TEST(VectorTest, InitializerListConstructor) {
