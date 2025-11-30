@@ -59,16 +59,6 @@ Trapezoid::operator double() {
     return Area();
 }
 
-void Trapezoid::Print(std::ostream& stream) const {
-    stream << "trapezoid\n";
-    for (int i = 0; i < TRAPEZOID_ANGLES; ++i) {
-        stream << points[i];
-        if (i < TRAPEZOID_ANGLES - 1) {
-            stream << ", ";
-        }
-    }
-}
-
 Point Trapezoid::GetVertex(int idx) const {
     if (idx < 0 || idx >= TRAPEZOID_ANGLES) {
         throw std::out_of_range("invalid vertex index");
@@ -159,7 +149,9 @@ std::istream& operator>>(std::istream& stream, Trapezoid& trap) {
 }
 
 std::ostream& operator<<(std::ostream& stream, const Trapezoid& trap) {
-    trap.Print(stream);
+    for (int i = 0; i < TRAPEZOID_ANGLES; ++i) {
+        stream << trap.points[i];
+    }
     return stream;
 }
 

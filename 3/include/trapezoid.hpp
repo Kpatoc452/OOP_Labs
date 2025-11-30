@@ -22,8 +22,7 @@ public:
     Trapezoid& operator=(const Trapezoid& other);
     Trapezoid& operator=(Trapezoid&& other);
     operator double() override;
-    
-    void Print(std::ostream& stream) const override;
+
     Point Center() const override;
     double Area() const override;
     Point GetVertex(int idx) const;

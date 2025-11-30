@@ -23,14 +23,10 @@ std::istream& operator>>(std::istream& stream, Point& point);
 double Distance(const Point& a, const Point& b);
 
 class Figure {
-    friend std::ostream& operator<<(std::ostream& stream, const Figure& fig);
 public:
     virtual Point Center() const = 0;
     virtual double Area() const = 0;
-    virtual void Print(std::ostream& stream) const = 0;
     virtual operator double() = 0;
     virtual ~Figure() = default;
 };
-
-std::ostream& operator<<(std::ostream& stream, const Figure& fig);
 }

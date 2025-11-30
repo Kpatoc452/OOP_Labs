@@ -59,17 +59,6 @@ Pentagon::operator double() {
     return Area();
 }
 
-void Pentagon::Print(std::ostream& stream) const {
-    stream << "pentagon\n";
-    for (int i = 0; i < PENTAGON_ANGLES; i++) {
-        stream << points[i];
-
-        if (i < PENTAGON_ANGLES - 1) {
-            stream << ", ";
-        }
-    }
-}
-
 Point Pentagon::GetVertex(int idx) const {
     if (idx < 0 || idx >= PENTAGON_ANGLES) {
         throw std::out_of_range("invalid vertex index");
@@ -114,7 +103,9 @@ std::istream& operator>>(std::istream& stream, Pentagon& pent) {
 }
 
 std::ostream& operator<<(std::ostream& stream, const Pentagon& pent) {
-    pent.Print(stream);
+    for (int i = 0; i < PENTAGON_ANGLES; i++) {
+        stream << pent.points[i];
+    }
     return stream;
 }
 

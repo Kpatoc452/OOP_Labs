@@ -22,8 +22,7 @@ public:
     Rhombus& operator=(const Rhombus& other);
     Rhombus& operator=(Rhombus&& other);
     operator double() override;
-    
-    void Print(std::ostream& stream) const override;
+
     Point Center() const override;
     double Area() const override;
     Point GetVertex(int idx) const;

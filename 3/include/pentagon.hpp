@@ -22,8 +22,7 @@ public:
     Pentagon& operator=(const Pentagon& other);
     Pentagon& operator=(Pentagon&& other);
     operator double() override;
-    
-    void Print(std::ostream& stream) const override;
+
     Point Center() const override;
     double Area() const override;
     Point GetVertex(int idx) const;

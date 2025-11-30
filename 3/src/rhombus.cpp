@@ -65,18 +65,6 @@ Point Rhombus::GetVertex(int idx) const {
     return points[idx];
 }
 
-void Rhombus::Print(std::ostream& stream) const {
-    stream << "rhombus\n";
-
-    for (size_t i = 0; i < RHOMBUS_ANGLES; i++) {
-        stream << points[i];
-
-        if (i < RHOMBUS_ANGLES - 1) {
-            stream << ", ";
-        }
-    }
-}
-
 bool Rhombus::IsValid() const {
     for (int i = 0; i < 4; ++i) {
         for (int j = i + 1; j < 4; ++j) {
@@ -123,7 +111,9 @@ std::istream& operator>>(std::istream& stream, Rhombus& rh) {
 }
 
 std::ostream& operator<<(std::ostream& stream, const Rhombus& rh) {
-    rh.Print(stream);
+    for (size_t i = 0; i < RHOMBUS_ANGLES; i++) {
+        stream << rh.points[i];
+    }
     return stream;
 }
 
