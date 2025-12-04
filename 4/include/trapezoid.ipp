@@ -22,7 +22,7 @@ Trapezoid<T>::Trapezoid(const Point<T>& p1, const Point<T>& p2, const Point<T>& 
 
 template<Scalar T>
 Trapezoid<T>::Trapezoid(const Trapezoid& other) {
-    for (int i = 0; i < TRAPEZOID_ANGLES; ++i) {
+    for (size_t i = 0; i < TRAPEZOID_ANGLES; ++i) {
         points[i] = std::make_unique<Point<T>>(*other.points[i]);
     }
 }
@@ -33,7 +33,7 @@ Trapezoid<T>& Trapezoid<T>::operator=(const Trapezoid& other) {
         return *this;
     }
 
-    for (int i = 0; i < TRAPEZOID_ANGLES; ++i) {
+    for (size_t i = 0; i < TRAPEZOID_ANGLES; ++i) {
         points[i] = std::make_unique<Point<T>>(*other.points[i]);
     }
 
@@ -49,7 +49,7 @@ template<Scalar T>
 Point<T> Trapezoid<T>::Center() const {
     T cx = 0, cy = 0;
 
-    for (int i = 0; i < TRAPEZOID_ANGLES; ++i) {
+    for (size_t i = 0; i < TRAPEZOID_ANGLES; ++i) {
         cx += points[i]->x;
         cy += points[i]->y;
     }
@@ -68,8 +68,8 @@ double Trapezoid<T>::Area() const {
 }
 
 template<Scalar T>
-Point<T> Trapezoid<T>::GetVertex(int idx) const {
-    if (idx < 0 || idx >= TRAPEZOID_ANGLES) {
+Point<T> Trapezoid<T>::GetVertex(size_t idx) const {
+    if (idx >= TRAPEZOID_ANGLES) {
         throw std::out_of_range("invalid vertex index");
     }
 
@@ -78,8 +78,8 @@ Point<T> Trapezoid<T>::GetVertex(int idx) const {
 
 template<Scalar T>
 bool Trapezoid<T>::IsValid() const {
-    for (int i = 0; i < 4; ++i) {
-        for (int j = i + 1; j < 4; ++j) {
+    for (size_t i = 0; i < 4; ++i) {
+        for (size_t j = i + 1; j < 4; ++j) {
             if (*points[i] == *points[j]) return false;
         }
     }
@@ -108,7 +108,7 @@ bool Trapezoid<T>::IsValid() const {
 
 template<Scalar T>
 bool operator==(const Trapezoid<T>& a, const Trapezoid<T>& b) {
-    for (int i = 0; i < TRAPEZOID_ANGLES; ++i) {
+    for (size_t i = 0; i < TRAPEZOID_ANGLES; ++i) {
         if (*a.points[i] != *b.points[i]) {
             return false;
         }
@@ -123,7 +123,7 @@ bool operator!=(const Trapezoid<T>& a, const Trapezoid<T>& b) {
 
 template<Scalar T>
 std::istream& operator>>(std::istream& stream, Trapezoid<T>& trap) {
-    for (int i = 0; i < TRAPEZOID_ANGLES; ++i) {
+    for (size_t i = 0; i < TRAPEZOID_ANGLES; ++i) {
         stream >> *trap.points[i];
     }
     return stream;
@@ -131,7 +131,7 @@ std::istream& operator>>(std::istream& stream, Trapezoid<T>& trap) {
 
 template<Scalar T>
 std::ostream& operator<<(std::ostream& stream, const Trapezoid<T>& trap) {
-    for (int i = 0; i < TRAPEZOID_ANGLES; ++i) {
+    for (size_t i = 0; i < TRAPEZOID_ANGLES; ++i) {
         stream << *trap.points[i];
     }
     return stream;

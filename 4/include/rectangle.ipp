@@ -22,7 +22,7 @@ Rectangle<T>::Rectangle(const Point<T>& p1, const Point<T>& p2, const Point<T>& 
 
 template<Scalar T>
 Rectangle<T>::Rectangle(const Rectangle& other) {
-    for (int i = 0; i < RECTANGLE_ANGLES; ++i) {
+    for (size_t i = 0; i < RECTANGLE_ANGLES; ++i) {
         points[i] = std::make_unique<Point<T>>(*other.points[i]);
     }
 }
@@ -33,7 +33,7 @@ Rectangle<T>& Rectangle<T>::operator=(const Rectangle& other) {
         return *this;
     }
 
-    for (int i = 0; i < RECTANGLE_ANGLES; ++i) {
+    for (size_t i = 0; i < RECTANGLE_ANGLES; ++i) {
         points[i] = std::make_unique<Point<T>>(*other.points[i]);
     }
 
@@ -49,7 +49,7 @@ template<Scalar T>
 Point<T> Rectangle<T>::Center() const {
     T cx = 0, cy = 0;
 
-    for (int i = 0; i < RECTANGLE_ANGLES; ++i) {
+    for (size_t i = 0; i < RECTANGLE_ANGLES; ++i) {
         cx += points[i]->x;
         cy += points[i]->y;
     }
@@ -66,8 +66,8 @@ double Rectangle<T>::Area() const {
 }
 
 template<Scalar T>
-Point<T> Rectangle<T>::GetVertex(int idx) const {
-    if (idx < 0 || idx >= RECTANGLE_ANGLES) {
+Point<T> Rectangle<T>::GetVertex(size_t idx) const {
+    if (idx >= RECTANGLE_ANGLES) {
         throw std::out_of_range("invalid vertex index");
     }
 
@@ -76,15 +76,15 @@ Point<T> Rectangle<T>::GetVertex(int idx) const {
 
 template<Scalar T>
 bool Rectangle<T>::IsValid() const {
-    for (int i = 0; i < 4; ++i) {
-        for (int j = i + 1; j < 4; ++j) {
+    for (size_t i = 0; i < 4; ++i) {
+        for (size_t j = i + 1; j < 4; ++j) {
             if (*points[i] == *points[j]) return false;
         }
     }
 
     double sides[4];
-    for (int i = 0; i < 4; ++i) {
-        int next = (i + 1) % 4;
+    for (size_t i = 0; i < 4; ++i) {
+        size_t next = (i + 1) % 4;
         sides[i] = Distance(*points[i], *points[next]);
     }
 
@@ -92,9 +92,9 @@ bool Rectangle<T>::IsValid() const {
         return false;
     }
 
-    for (int i = 0; i < 4; ++i) {
-        int next = (i + 1) % 4;
-        int next2 = (i + 2) % 4;
+    for (size_t i = 0; i < 4; ++i) {
+        size_t next = (i + 1) % 4;
+        size_t next2 = (i + 2) % 4;
 
         double vec1_x = static_cast<double>(points[next]->x - points[i]->x);
         double vec1_y = static_cast<double>(points[next]->y - points[i]->y);
@@ -114,7 +114,7 @@ bool Rectangle<T>::IsValid() const {
 
 template<Scalar T>
 bool operator==(const Rectangle<T>& a, const Rectangle<T>& b) {
-    for (int i = 0; i < RECTANGLE_ANGLES; ++i) {
+    for (size_t i = 0; i < RECTANGLE_ANGLES; ++i) {
         if (*a.points[i] != *b.points[i]) {
             return false;
         }
@@ -129,7 +129,7 @@ bool operator!=(const Rectangle<T>& a, const Rectangle<T>& b) {
 
 template<Scalar T>
 std::istream& operator>>(std::istream& stream, Rectangle<T>& rect) {
-    for (int i = 0; i < RECTANGLE_ANGLES; ++i) {
+    for (size_t i = 0; i < RECTANGLE_ANGLES; ++i) {
         stream >> *rect.points[i];
     }
     return stream;
@@ -137,7 +137,7 @@ std::istream& operator>>(std::istream& stream, Rectangle<T>& rect) {
 
 template<Scalar T>
 std::ostream& operator<<(std::ostream& stream, const Rectangle<T>& rect) {
-    for (int i = 0; i < RECTANGLE_ANGLES; ++i) {
+    for (size_t i = 0; i < RECTANGLE_ANGLES; ++i) {
         stream << *rect.points[i];
     }
     return stream;

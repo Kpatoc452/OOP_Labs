@@ -6,24 +6,24 @@ namespace figure {
 
 template<Scalar T>
 Rhombus<T>::Rhombus() {
-    points[0] = std::make_unique<Point<T>>(0, 0);
-    points[1] = std::make_unique<Point<T>>(1, 0);
-    points[2] = std::make_unique<Point<T>>(1, 1);
-    points[3] = std::make_unique<Point<T>>(0, 1);
+    points[0] = PointPtr(new Point<T>(0, 0), PointDeleter<T>());
+    points[1] = PointPtr(new Point<T>(1, 0), PointDeleter<T>());
+    points[2] = PointPtr(new Point<T>(1, 1), PointDeleter<T>());
+    points[3] = PointPtr(new Point<T>(0, 1), PointDeleter<T>());
 }
 
 template<Scalar T>
 Rhombus<T>::Rhombus(const Point<T>& p1, const Point<T>& p2, const Point<T>& p3, const Point<T>& p4) {
-    points[0] = std::make_unique<Point<T>>(p1);
-    points[1] = std::make_unique<Point<T>>(p2);
-    points[2] = std::make_unique<Point<T>>(p3);
-    points[3] = std::make_unique<Point<T>>(p4);
+    points[0] = PointPtr(new Point<T>(p1), PointDeleter<T>());
+    points[1] = PointPtr(new Point<T>(p2), PointDeleter<T>());
+    points[2] = PointPtr(new Point<T>(p3), PointDeleter<T>());
+    points[3] = PointPtr(new Point<T>(p4), PointDeleter<T>());
 }
 
 template<Scalar T>
 Rhombus<T>::Rhombus(const Rhombus& other) {
     for (size_t i = 0; i < RHOMBUS_ANGLES; ++i) {
-        points[i] = std::make_unique<Point<T>>(*other.points[i]);
+        points[i] = PointPtr(new Point<T>(*other.points[i]), PointDeleter<T>());
     }
 }
 
@@ -34,7 +34,7 @@ Rhombus<T>& Rhombus<T>::operator=(const Rhombus& other) {
     }
 
     for (size_t i = 0; i < RHOMBUS_ANGLES; ++i) {
-        points[i] = std::make_unique<Point<T>>(*other.points[i]);
+        points[i] = PointPtr(new Point<T>(*other.points[i]), PointDeleter<T>());
     }
 
     return *this;
@@ -66,8 +66,8 @@ double Rhombus<T>::Area() const {
 }
 
 template<Scalar T>
-Point<T> Rhombus<T>::GetVertex(int idx) const {
-    if (idx < 0 || idx >= RHOMBUS_ANGLES) {
+Point<T> Rhombus<T>::GetVertex(size_t idx) const {
+    if (idx >= RHOMBUS_ANGLES) {
         throw std::out_of_range("invalid vertex index");
     }
 
@@ -76,19 +76,19 @@ Point<T> Rhombus<T>::GetVertex(int idx) const {
 
 template<Scalar T>
 bool Rhombus<T>::IsValid() const {
-    for (int i = 0; i < 4; ++i) {
-        for (int j = i + 1; j < 4; ++j) {
+    for (size_t i = 0; i < 4; ++i) {
+        for (size_t j = i + 1; j < 4; ++j) {
             if (*points[i] == *points[j]) return false;
         }
     }
 
     double sides[4];
-    for (int i = 0; i < 4; ++i) {
-        int next = (i + 1) % 4;
+    for (size_t i = 0; i < 4; ++i) {
+        size_t next = (i + 1) % 4;
         sides[i] = Distance(*points[i], *points[next]);
     }
 
-    for (int i = 1; i < 4; ++i) {
+    for (size_t i = 1; i < 4; ++i) {
         if (std::fabs(sides[i] - sides[0]) > EPS) return false;
     }
 

@@ -23,7 +23,7 @@ public:
 
     Point<T> Center() const override;
     double Area() const override;
-    Point<T> GetVertex(int idx) const;
+    Point<T> GetVertex(size_t idx) const;
     bool IsValid() const;
 
     template<Scalar U>
