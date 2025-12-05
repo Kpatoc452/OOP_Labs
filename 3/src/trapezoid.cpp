@@ -66,37 +66,6 @@ Point Trapezoid::GetVertex(int idx) const {
     return points[idx];
 }
 
-/*
-bool Trapezoid::Validate(Point p1, Point p2, Point p3, Point p4) const {
-    Point points_arr[TRAPEZOIDANGLES] = {p1, p2, p3, p4};
-    for (size_t i = 0; i != TRAPEZOIDANGLES; ++i) {
-        for (size_t j = i + 1; j != TRAPEZOIDANGLES; ++j) {
-            if (points_arr[i] == points_arr[j]) {
-                return false;
-            }
-        }
-    }
-    double vec1_x = p2.x - p1.x; 
-    double vec1_y = p2.y - p1.y;
-    double vec2_x = p4.x - p3.x;
-    double vec2_y = p4.y - p3.y;
-    double cross = vec1_x * vec2_y - vec1_y * vec2_x;
-
-    double vec3_x = p3.x - p2.x;
-    double vec3_y = p3.y - p2.y;
-    double vec4_x = p1.x - p4.x;
-    double vec4_y = p1.y - p4.y;
-    double cross2 = vec3_x * vec4_y - vec3_y * vec4_x;
-
-    bool is_sides_parallel = (std::fabs(cross) < EPS) || (std::fabs(cross2) < EPS);
-    double base1 = Distance(p1, p2);
-    double base2 = Distance(p3, p4);
-    double height = std::fabs(p1.y - p3.y);
-    double temp_area = 0.5 * (base1 + base2) * height;
-
-    return is_sides_parallel && temp_area > EPS;
-}
-*/
 bool Trapezoid::IsValid() const {
     for (int i = 0; i < 4; ++i) {
         for (int j = i + 1; j < 4; ++j) {

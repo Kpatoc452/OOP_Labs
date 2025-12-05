@@ -5,7 +5,6 @@
 #include "pentagon.hpp"
 #include "vector.hpp"
 
-// Тесты для Point
 TEST(PointTest, DefaultConstructor) {
     figure::Point p;
     EXPECT_DOUBLE_EQ(p.x, 0.0);
@@ -18,11 +17,8 @@ TEST(PointTest, ValueConstructor) {
     EXPECT_DOUBLE_EQ(p.y, 2.5);
 }
 
-// Тесты для Trapezoid
 TEST(TrapezoidTest, DefaultConstructor) {
     figure::Trapezoid t;
-    
-    // Проверяем конкретные значения вершин, установленные в конструкторе
     EXPECT_DOUBLE_EQ(t.GetVertex(0).x, 0.0);
     EXPECT_DOUBLE_EQ(t.GetVertex(0).y, 0.0);
     
@@ -36,10 +32,10 @@ TEST(TrapezoidTest, DefaultConstructor) {
     EXPECT_DOUBLE_EQ(t.GetVertex(3).y, 1.0);
     
     EXPECT_GT(t.Area(), 0.0);
-    
+
     auto center = t.Center();
     EXPECT_DOUBLE_EQ(center.x, 0.5);
-    EXPECT_DOUBLE_EQ(center.y, 0.5); 
+    EXPECT_DOUBLE_EQ(center.y, 0.5);
 }
 
 TEST(TrapezoidTest, ValueConstructor) {
@@ -129,7 +125,6 @@ TEST(PentagonTest, CenterCalculation) {
     EXPECT_NEAR(center.y, 0.0, 1e-9);
 }
 
-// Тесты для Vector
 TEST(VectorTest, DefaultConstructor) {
     vector::Vector v;
     EXPECT_TRUE(v.IsEmpty());
@@ -256,7 +251,6 @@ TEST(ConversionTest, ToDouble) {
     EXPECT_NEAR(r_area, r.Area(), 1e-9);
 }
 
-// Тесты валидации
 TEST(ValidationTest, TrapezoidValidation) {
     figure::Point p1{0,0}, p2{4,0}, p3{3,3}, p4{1,3};
     figure::Trapezoid valid_trapezoid(p1, p2, p3, p4);
