@@ -1,4 +1,5 @@
 #include "memory_resource.hpp"
+#include "exceptions.hpp"
 #include <stdexcept>
 #include <cstdlib>
 #include <cstring>
@@ -38,9 +39,13 @@ void* FixedBlockMemoryResource::do_allocate(size_t bytes, size_t alignment) {
 
 void FixedBlockMemoryResource::do_deallocate(void* p, size_t bytes, size_t alignment) {
     auto it = allocations_.find(p);
-    if (it != allocations_.end()) {
-        allocations_.erase(it);
+    if (it == allocations_.end()) {
+        throw InvalidDeallocatedBlockException("Attempting to deallocate invalid block");
     }
+    if (it->second != bytes) {
+        throw InvalidDeallocatedBitesSisezSizeException("Deallocating with incorrect size");
+    }
+    allocations_.erase(it);
 }
 
 bool FixedBlockMemoryResource::do_is_equal(const std::pmr::memory_resource& other) const noexcept {

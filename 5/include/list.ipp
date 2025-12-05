@@ -1,5 +1,7 @@
 #pragma once
 
+#include "exceptions.hpp"
+
 namespace container {
 
 template <typename T>
@@ -65,7 +67,12 @@ List<T>& List<T>::operator=(List&& other) noexcept {
 template <typename T>
 void List<T>::PushBack(const T& value) {
     Node* new_node = allocator_.allocate(1);
-    allocator_.construct(new_node, value);
+    try {
+        allocator_.construct(new_node, value);
+    } catch (...) {
+        allocator_.deallocate(new_node, 1);
+        throw;
+    }
 
     if (!head_) {
         head_ = tail_ = new_node;
@@ -81,7 +88,12 @@ void List<T>::PushBack(const T& value) {
 template <typename T>
 void List<T>::PushBack(T&& value) {
     Node* new_node = allocator_.allocate(1);
-    allocator_.construct(new_node, std::move(value));
+    try {
+        allocator_.construct(new_node, std::move(value));
+    } catch (...) {
+        allocator_.deallocate(new_node, 1);
+        throw;
+    }
 
     if (!head_) {
         head_ = tail_ = new_node;
@@ -97,7 +109,12 @@ void List<T>::PushBack(T&& value) {
 template <typename T>
 void List<T>::PushFront(const T& value) {
     Node* new_node = allocator_.allocate(1);
-    allocator_.construct(new_node, value);
+    try {
+        allocator_.construct(new_node, value);
+    } catch (...) {
+        allocator_.deallocate(new_node, 1);
+        throw;
+    }
 
     if (!head_) {
         head_ = tail_ = new_node;
@@ -113,7 +130,12 @@ void List<T>::PushFront(const T& value) {
 template <typename T>
 void List<T>::PushFront(T&& value) {
     Node* new_node = allocator_.allocate(1);
-    allocator_.construct(new_node, std::move(value));
+    try {
+        allocator_.construct(new_node, std::move(value));
+    } catch (...) {
+        allocator_.deallocate(new_node, 1);
+        throw;
+    }
 
     if (!head_) {
         head_ = tail_ = new_node;
@@ -129,7 +151,7 @@ void List<T>::PushFront(T&& value) {
 template <typename T>
 void List<T>::PopBack() {
     if (!tail_) {
-        return;
+        throw ListIsEmptyException("Cannot pop from empty list");
     }
 
     Node* old_tail = tail_;
@@ -149,7 +171,7 @@ void List<T>::PopBack() {
 template <typename T>
 void List<T>::PopFront() {
     if (!head_) {
-        return;
+        throw ListIsEmptyException("Cannot pop from empty list");
     }
 
     Node* old_head = head_;
@@ -168,21 +190,33 @@ void List<T>::PopFront() {
 
 template <typename T>
 T& List<T>::Front() {
+    if (!head_) {
+        throw ListIsEmptyException("Cannot access front of empty list");
+    }
     return head_->data;
 }
 
 template <typename T>
 const T& List<T>::Front() const {
+    if (!head_) {
+        throw ListIsEmptyException("Cannot access front of empty list");
+    }
     return head_->data;
 }
 
 template <typename T>
 T& List<T>::Back() {
+    if (!tail_) {
+        throw ListIsEmptyException("Cannot access back of empty list");
+    }
     return tail_->data;
 }
 
 template <typename T>
 const T& List<T>::Back() const {
+    if (!tail_) {
+        throw ListIsEmptyException("Cannot access back of empty list");
+    }
     return tail_->data;
 }
 
