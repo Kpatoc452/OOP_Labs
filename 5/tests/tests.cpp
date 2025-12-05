@@ -44,7 +44,10 @@ TEST(MemoryResourceTest, MultipleAllocations) {
 TEST(MemoryResourceTest, OutOfMemory) {
     FixedBlockMemoryResource mr(64);
 
-    EXPECT_THROW(mr.allocate(128, 8), std::bad_alloc);
+    EXPECT_THROW({
+        void* ptr = mr.allocate(128, 8);
+        (void)ptr;
+    }, std::bad_alloc);
 }
 
 TEST(ListTest, EmptyList) {

@@ -47,9 +47,9 @@ int main() {
     memory::FixedBlockMemoryResource mr2(2048);
     container::List<Person> list2(&mr2);
 
-    list2.PushBack(Person{1, 50000.0, "Alice"});
-    list2.PushBack(Person{2, 60000.0, "Bob"});
-    list2.PushBack(Person{3, 55000.0, "Charlie"});
+    list2.PushBack(Person{1, 50000.0, "Ivan"});
+    list2.PushBack(Person{2, 60000.0, "Vova"});
+    list2.PushBack(Person{3, 55000.0, "Sasha"});
 
     for (const auto& p : list2) {
         std::cout << p << "\n";
