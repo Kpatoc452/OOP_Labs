@@ -1,7 +1,6 @@
 #pragma once
 
 #include "figure.hpp"
-#include "deleter.hpp"
 #include <memory>
 #include <stdexcept>
 
@@ -9,9 +8,7 @@ namespace figure {
 
 template<Scalar T>
 class Rhombus : public Figure<T> {
-    // Используем кастомный deleter для Point
-    using PointPtr = std::unique_ptr<Point<T>, PointDeleter<T>>;
-    PointPtr points[RHOMBUS_ANGLES];
+    std::unique_ptr<Point<T>> points[RHOMBUS_ANGLES];
 
 public:
     Rhombus();

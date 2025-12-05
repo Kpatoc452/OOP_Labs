@@ -23,17 +23,9 @@ FetchContent_MakeAvailable(googletest)
 
 include_directories(include)
 
-# Source files
-set(SOURCES
-    src/deleter.cpp
-)
-
-add_executable(main main.cpp ${SOURCES})
-
-# Demo executable for custom deleters
-add_executable(deleter_demo examples/deleter_demo.cpp ${SOURCES})
+add_executable(main main.cpp)
 
 enable_testing()
-add_executable(tests tests/tests.cpp ${SOURCES})
+add_executable(tests tests/tests.cpp)
 target_link_libraries(tests gtest_main)
 add_test(NAME tests COMMAND tests)

@@ -6,24 +6,24 @@ namespace figure {
 
 template<Scalar T>
 Rhombus<T>::Rhombus() {
-    points[0] = PointPtr(new Point<T>(0, 0), PointDeleter<T>());
-    points[1] = PointPtr(new Point<T>(1, 0), PointDeleter<T>());
-    points[2] = PointPtr(new Point<T>(1, 1), PointDeleter<T>());
-    points[3] = PointPtr(new Point<T>(0, 1), PointDeleter<T>());
+    points[0] = std::make_unique<Point<T>>(0, 0);
+    points[1] = std::make_unique<Point<T>>(1, 0);
+    points[2] = std::make_unique<Point<T>>(1, 1);
+    points[3] = std::make_unique<Point<T>>(0, 1);
 }
 
 template<Scalar T>
 Rhombus<T>::Rhombus(const Point<T>& p1, const Point<T>& p2, const Point<T>& p3, const Point<T>& p4) {
-    points[0] = PointPtr(new Point<T>(p1), PointDeleter<T>());
-    points[1] = PointPtr(new Point<T>(p2), PointDeleter<T>());
-    points[2] = PointPtr(new Point<T>(p3), PointDeleter<T>());
-    points[3] = PointPtr(new Point<T>(p4), PointDeleter<T>());
+    points[0] = std::make_unique<Point<T>>(p1);
+    points[1] = std::make_unique<Point<T>>(p2);
+    points[2] = std::make_unique<Point<T>>(p3);
+    points[3] = std::make_unique<Point<T>>(p4);
 }
 
 template<Scalar T>
 Rhombus<T>::Rhombus(const Rhombus& other) {
     for (size_t i = 0; i < RHOMBUS_ANGLES; ++i) {
-        points[i] = PointPtr(new Point<T>(*other.points[i]), PointDeleter<T>());
+        points[i] = std::make_unique<Point<T>>(*other.points[i]);
     }
 }
 
@@ -34,7 +34,7 @@ Rhombus<T>& Rhombus<T>::operator=(const Rhombus& other) {
     }
 
     for (size_t i = 0; i < RHOMBUS_ANGLES; ++i) {
-        points[i] = PointPtr(new Point<T>(*other.points[i]), PointDeleter<T>());
+        points[i] = std::make_unique<Point<T>>(*other.points[i]);
     }
 
     return *this;
